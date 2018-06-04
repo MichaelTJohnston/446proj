@@ -6,4 +6,3 @@ clear; % Clears workspace
 clc; %clears command window
 close all;
 
-% hiii
