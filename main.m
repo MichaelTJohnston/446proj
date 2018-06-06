@@ -29,17 +29,17 @@ diaG = 20; % Diameter of ground antenna [m]
 diaScFixed = 20E-2; % Diameter of FIXED spacecraft antenna (low-cost) [m]
 diaScDep = 50E-2; % Diameter of DEPLOYABLE spacecraft antenna (high-cost) [m]
 
+Ts = 10*log10(150); % System temperature noise [dB]
+Ll = 5; % Line losses [dB]
+EbNoMin = 3 + 5; % Link budget plus margin for Reed-Solomon encoding[dB]
+Latm = 0; % Atmospheric losses ASSUMING ZERO [dB]
+Lpt = 0; % Pointing losses [dB]
+
 % -- dB Equations --
 G = @(D,f) 20*log10(f*1E-9) + 20*log10(D) + 17.8; % Parabolic antenna gain [dB]
 Ls = @(dist,f) 20*log10(dist) + 20*log10(f) - 147.55; % Path loss [dB]
 beamWid = @(D,f) 65.3*c./f/D; % Parabolic antenna beam width equation [degrees]
 Lpoint = @(err,beamWid) 12*(err./beamWid).^2; % Pointing error equation [dB]
-
-Ts = 10*log10(150); % System temperature noise [K]
-Ll = 5; % Line losses [dB]
-EbNoMin = 3 + 5; % Link budget plus margin for Reed-Solomon encoding[dB]
-Latm = 0; % Atmospheric losses ASSUMING ZERO [dB]
-Lpt = 0; % Pointing losses [dB]
 
 % -- Signal loss vs Frequency (tl;dr, frequency doesn't matter)
 figure
@@ -53,14 +53,7 @@ legend('Deployable Antenna', 'Fixed Antenna')
 % Solving for data rate that meets link budget
 fTx = fRange(1); % Transmit frequency
 syms dRate
-% Max rate [bps]
-dRate = double(solve(EbNoMin == 10*log10(txPower) - Ls(EMdist,fTx) +...
-	G(diaG,fTx) + G(diaScFixed,fTx) + 228.6 - Ts - 10*log(dRate) - Ll,dRate));
+linkEq = EbNoMin == 10*log10(txPower) - Ls(EMdist,fTx) + G(diaG,fTx) + G(diaScFixed,fTx) + 228.6 - Ts - 10*log(dRate) - Ll;
 
+dRate = double(solve(linkEq,dRate)); % Max data rate [bps]
 
-
-function res = linkEq(factors,solveFor)
-	syms EbNo P Ls Lpt_r Lpt_t Latm Gr Gt Ts R Ll
-	
-	eq = EbNo == P - Ls - Lpt_r - Lpt_t - Latm + Gr + Gt - 10*log10(Ts) - 10*log10(R) - Ll;
-end
