@@ -4,6 +4,13 @@
 % -- Assumptions --
 % Pointing errors are negligible (XACT-50 has ?0.003 deg accuracy)
 
+% -- Variables --
+% Data rate
+% Transmit power
+
+% -- To do --
+% Find power produced by panels in 1 day (fn of data rate)
+
 % housekeeping
 clear; % Clears workspace
 clc; %clears command window
@@ -22,8 +29,10 @@ rSens = 100E3; % Data rate of sensor during operations [bps]
 
 fRange = linspace(8.400, 8.450)'*1E9; % X-Band frequency range [Hz]
 commTime = 2*3600; % Total required comm time per day [s]
-txPower = 35; % Power consumed by radio during transmit/receive [W]
-rxPower = 12.5; % Power consumde by radio during receive only [W]
+rxPower = 12.5; % Power consumed by radio during receive only [W]
+maxTxPowerIn = 30.8; % Power consumed by radio during transmit only [W]
+rxPlusPower = 35-maxTxPowerIn; % Power consumed for rx during tx/rx [W]
+txEff = 3.8/maxTxPowerIn; % Transmitter power efficiency
 
 diaG = 20; % Diameter of ground antenna [m]
 diaScFixed = 20E-2; % Diameter of FIXED spacecraft antenna (low-cost) [m]
@@ -50,10 +59,11 @@ title('Signal Loss vs Frequency (Antenna Gain - Path Loss)')
 xlabel('Frequency [GHz]'), ylabel('Signal Loss [dB]')
 legend('Deployable Antenna', 'Fixed Antenna')
 
-% Solving for data rate that meets link budget
+% Solving for max data rate that meets link budget
 fTx = fRange(1); % Transmit frequency
 syms dRate
-linkEq = EbNoMin == 10*log10(txPower) - Ls(EMdist,fTx) + G(diaG,fTx) + G(diaScFixed,fTx) + 228.6 - Ts - 10*log(dRate) - Ll;
+linkEq = EbNoMin == 10*log10(txEff*maxTxPowerIn) - Ls(EMdist,fTx) + G(diaG,fTx)...
+	+ G(diaScFixed,fTx) + 228.6 - Ts - 10*log(dRate) - Ll;
 
-dRate = double(solve(linkEq,dRate)); % Max data rate [bps]
+dRateMax = double(solve(linkEq,dRate)); % Max data rate that meets link budget [bps]
 
