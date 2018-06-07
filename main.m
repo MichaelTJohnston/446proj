@@ -23,6 +23,13 @@ muMoon = 4904.8695; % Gravitational constant of Moon [km^3/s^2]
 rMoon = 1737.1; % Radius of Moon [km]
 EMdist = 406700E3; % Max distance from Earth to Moon [m]
 
+% -- Orbit parameters --
+T = 2*pi*sqrt((hOrbit+rMoon)^3/muMoon); % Period of orbit [s]
+w = 2*pi/T; % Angular velocity [rad/s]
+thetaEclipse = pi/2 + acos(rMoon/(hOrbit+rMoon));
+tEclipse = [thetaEclipse wrapTo2Pi(-thetaEclipse)]/w; % Time range in eclipse [s]
+tSun = T - (tEclipse(2) - tEclipse(1)); % Time in sun [s]
+
 pSens = 40; % Power consumed by sensor during science gathering [w]
 pSens_sby = 2; % Power consumed by sensor in stand-by [w]
 rSens = 100E3; % Data rate of sensor during operations [bps]
