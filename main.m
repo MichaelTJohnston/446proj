@@ -36,7 +36,13 @@ orbits = 24*3600/T; % Orbits per day
 % Fn of size of panels, density, efficiency
 U = 0.10; % Cube sat "Unit" [m]
 APanel = 3*U*2*U; % Area of solar panels [m^2]
-
+Fsun = 1366; % Solar flux [W/m^2]
+effPanel = 0.3; % Efficiency of panel
+effTemp = 0.5/100; % Degredation of panel efficiency due to temp
+effTime = 0.25/100; % Degredation of panel efficiency due to time [%/yr]
+opTime = 3; % Operational time [yrs]
+T = 40; % Temperature of panels [?C]
+Ppanel = Fsun*effPanel*(1 - effTemp*(T - 25))*(1 - effTime)^opTime*APanel
 
 pSens = 40; % Power consumed by sensor during science gathering [w]
 pSens_sby = 2; % Power consumed by sensor in stand-by [w]
