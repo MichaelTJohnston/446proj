@@ -35,7 +35,7 @@ orbits = 24*3600/T; % Orbits per day
 % Power out in an orbit?
 % Fn of size of panels, density, efficiency
 U = 0.10; % Cube sat "Unit" [m]
-AfixedPanel = 3*U*2*U; % Area of fixed panels [m^2]
+APanel = 3*U*2*U; % Area of solar panels [m^2]
 
 
 pSens = 40; % Power consumed by sensor during science gathering [w]
