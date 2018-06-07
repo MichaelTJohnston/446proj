@@ -29,6 +29,14 @@ w = 2*pi/T; % Angular velocity [rad/s]
 thetaEclipse = pi/2 + acos(rMoon/(hOrbit+rMoon));
 tEclipse = [thetaEclipse wrapTo2Pi(-thetaEclipse)]/w; % Time range in eclipse [s]
 tSun = T - (tEclipse(2) - tEclipse(1)); % Time in sun [s]
+orbits = 24*3600/T; % Orbits per day
+
+% -- Tracking panel
+% Power out in an orbit?
+% Fn of size of panels, density, efficiency
+U = 0.10; % Cube sat "Unit" [m]
+AfixedPanel = 3*U*2*U; % Area of fixed panels [m^2]
+
 
 pSens = 40; % Power consumed by sensor during science gathering [w]
 pSens_sby = 2; % Power consumed by sensor in stand-by [w]
