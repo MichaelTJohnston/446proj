@@ -37,6 +37,8 @@ orbits = 24*3600/T; % Orbits per day
 U = 0.10; % Cube sat "Unit" [m]
 APanel = 3*U*2*U; % Area of solar panels [m^2]
 
+% -- Body Mounted Solar Panels --
+
 
 pSens = 40; % Power consumed by sensor during science gathering [w]
 pSens_sby = 2; % Power consumed by sensor in stand-by [w]
