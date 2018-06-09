@@ -87,6 +87,7 @@ pModeComms = pACS(2) + pCPU(1) + rxPower + pSens_sby + rxTxPower;
 pModeGen = pModeIdle; % Power consumed during power generation
 % Science gathering (always gather in eclipse?)
 pModeSci = pModeIdle + pSens;
+
 % --
 
 fRange = linspace(8.400, 8.450)'*1E9; % X-Band frequency range [Hz]
