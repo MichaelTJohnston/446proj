@@ -20,6 +20,7 @@ thetaEclipse = pi/2 + acos(rMoon/(hOrbit+rMoon));
 tEclipse = [thetaEclipse wrapTo2Pi(-thetaEclipse)]/w; % Time range in eclipse [s]
 tSun = T - (tEclipse(2) - tEclipse(1)); % Time in sun [s]
 orbits = 24*3600/T; % Orbits per day
+tSun_day = tSun*orbits; % time in sun per day [s]
 
 %% -- Solar panels --
 U = 0.10; % Cube sat "Unit" [m]
@@ -87,6 +88,7 @@ pModeComms = pACS(2) + pCPU(1) + rxPower + pSens_sby + rxTxPower;
 pModeGen = pModeIdle; % Power consumed during power generation
 % Science gathering (always gather in eclipse?)
 pModeSci = pModeIdle + pSens;
+
 % --
 
 fRange = linspace(8.400, 8.450)'*1E9; % X-Band frequency range [Hz]
