@@ -16,7 +16,7 @@ EMdist = 406700E3; % Max distance from Earth to Moon [m]
 %% -- Orbit parameters --
 T = 2*pi*sqrt((hOrbit+rMoon)^3/muMoon); % Period of orbit [s]
 w = 2*pi/T; % Angular velocity [rad/s]
-thetaEclipse = acosd(rMoon/(hOrbit+rMoon));
+thetaEclipse = acos(rMoon/(hOrbit+rMoon));
 tEclipse = [thetaEclipse wrapTo2Pi(-thetaEclipse)]/w; % Time range in eclipse [s]
 tSun = (tEclipse(2) - tEclipse(1)); % Time in sun [s]
 orbits = 24*3600/T; % Orbits per day
