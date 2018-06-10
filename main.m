@@ -73,13 +73,13 @@ rSens = 100E3; % Data rate of sensor during operations [bps]
 
 % -- Modes
 % Idle power consumed [W]
-pModeIdle = pCPU(1) + rxPower + pSens_sby;
+pModeIdle = pCPU(1) + rxPower + pSens_sby + pACS(1);
 % Comms only power consumed [W]
 pModeComms = pACS(2) + pCPU(1) + rxPower + pSens_sby + rxTxPower;
 % Power generation
 pModeGen = pModeIdle; % Power consumed during power generation
 % Science gathering (always gather in eclipse?)
-pModeSci = pModeIdle + pSens;
+pModeSci = pSens + pCPU(2) + pACS(2) + rxPower;
 
 % --
 
@@ -118,3 +118,17 @@ linkEq = EbNoMin == 35 - Ls(EMdist,fTx) + G(diaG,fTx)...
 	+ G(diaScFixed,fTx) + 228.6 - Ts - 10*log10(dRate) - Ll;
 
 dRateMax = double(solve(linkEq,dRate));  % Max data rate that meets link budget [bps]
+
+%% finding the energy for different modes
+
+%max data sent
+dStored = dRateMax*(2*3600); %[bits] data sent to earth for two hours
+
+%max data stored
+tSci = (dRateMax*2*3600)/rSens;
+
+%energy consumed gathering data
+ESci = (pModeSci)*tSci;
+
+%energy consumed during downlink
+EDown = (pACS(2) + maxTxPowerIn + pCPU(1) + pACS(2) + pSens_sby)*tSci; %[Whr] energy consumed during uplink
