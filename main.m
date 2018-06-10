@@ -99,19 +99,18 @@ beamWid = @(D,f) 65.3*c./f/D; % Parabolic antenna beam width equation [degrees]
 Lpoint = @(err,beamWid) 12*(err./beamWid).^2; % Pointing error equation [dB]
 
 %% -- Signal loss vs Frequency (tl;dr, frequency doesn't matter)
-figure
-plot(fRange*1E-9, G(diaG,fRange) + G(diaScDep,fRange) - Ls(EMdist,fRange),...
-	fRange*1E-9, G(diaG,fRange) + G(diaScFixed,fRange) - Ls(EMdist,fRange), 'lineWidth', 2)
-grid on
-title('Signal Loss vs Frequency (Antenna Gain - Path Loss)')
-xlabel('Frequency [GHz]'), ylabel('Signal Loss [dB]')
-legend('Deployable Antenna', 'Fixed Antenna')
+% figure
+% plot(fRange*1E-9, G(diaG,fRange) + G(diaScDep,fRange) - Ls(EMdist,fRange),...
+% 	fRange*1E-9, G(diaG,fRange) + G(diaScFixed,fRange) - Ls(EMdist,fRange), 'lineWidth', 2)
+% grid on
+% title('Signal Loss vs Frequency (Antenna Gain - Path Loss)')
+% xlabel('Frequency [GHz]'), ylabel('Signal Loss [dB]')
+% legend('Deployable Antenna', 'Fixed Antenna')
 
 %% Solving for max data rate that meets link budget
 fTx = fRange(1); % Transmit frequency
 syms dRate
-linkEq = EbNoMin == 3.8 - Ls(EMdist,fTx) + G(diaG,fTx)...
-	+ G(diaScFixed,fTx) + 228.6 - Ts - 10*log(dRate) - Ll;
+linkEq = EbNoMin == 35 - Ls(EMdist,fTx) + G(diaG,fTx)...
+	+ G(diaScFixed,fTx) + 228.6 - Ts - 10*log10(dRate) - Ll;
 
-dRateMax = double(solve(linkEq,dRate)) % Max data rate that meets link budget [bps]
-
+dRateMax = double(solve(linkEq,dRate));  % Max data rate that meets link budget [bps]
