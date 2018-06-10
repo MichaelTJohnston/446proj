@@ -66,7 +66,7 @@ txEff = 3.8/maxTxPowerIn; % Transmitter power efficiency
 pACS = [2 3]; % Power consumed by ACS (average) [w]
 
 % -Computer
-pCPU = [1.6 2.85]; % Power consumed by computer
+pCPU = [1.6 2.85]; % Power consumed by computer [W]
 
 % -Sensor
 pSens = 40; % Power consumed by sensor during science gathering [w]
@@ -75,11 +75,11 @@ rSens = 100E3; % Data rate of sensor during operations [bps]
 
 %% -- 
 
-% -- Modes
+% -- Power Consumption Modes
 % Idle power consumed [W]
 pModeIdle = pCPU(1) + rxPower + pSens_sby + pACS(1);
 % Comms only power consumed [W]
-pModeComms = pACS(2) + pCPU(1) + rxPower + pSens_sby + rxTxPower;
+pModeComms = pACS(2) + pCPU(1) + pSens_sby + rxTxPower;
 % Power generation
 pModeGen = pModeIdle; % Power consumed during power generation
 % Science gathering (always gather in eclipse?)
