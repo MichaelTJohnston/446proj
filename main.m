@@ -141,20 +141,18 @@ ESci = (pModeSci)*tSci;
 EDown = (pACS(2) + maxTxPowerIn + pCPU(1) + pACS(2) + pSens_sby)*tSci; %[Whr] energy consumed during uplink
 
 %% Energy for fixed and track with science per day. 
-Pfixed = eGenBody2/(tSun*orbits*(1/3600)); % [W] power generated per orbit 
-Psci = pModeSci; % [W] power used for science 
-Pidle = pModeIdle; % [W] power used during idle
 ttx = (T*100000)/(dRateMax); % [s] time for data transfer
-Esci_fixed = T*(Pfixed - Psci); %  energy used in one orbit for data collection 
+Esci_fixed = T*(PgenFixed45 - pModeSci); %  energy used in one orbit for data collection 
 Etx_fixed = ttx*pModeComms; % energy for transmitting data 
-Egen_fixed = (orbits*T - T - ttx)*(Pfixed  - Pidle); % energy generated in a day 
+Egen_fixed = (orbits*T - T - ttx)*(PgenFixed45  - pModeIdle); % energy generated in a day 
 
 Eday_fixed = Esci_fixed + Etx_fixed + Egen_fixed % net energy gained/loss
 
-Esci_track = 2*T*(pGen - Psci); %[W] power used for science
+Esci_track = 2*T*(pGen - pModeSci); %[W] power used for science
 Etx_track = ttx*(pGen - pModeComms); % energy used in one orbit for data collection 
-Egen_track = 
+Egen_track = (orbits*T - 2*T - ttx) * (pGen - pModeIdle); % energy generated in a day
 
+Eday_track = Esci_track + Etx_track + Egen_track % net energy gained/loss
 
 
 
