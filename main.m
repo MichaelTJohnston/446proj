@@ -178,7 +178,7 @@ Eday_track = (Esci_track + Etx_track + Egen_track)/3600; % [W.hr] net energy gai
 %% Plots 
 % plot for tracking panels
 % Power Generation
-pGenTrack24 = pTime(pGenTracking,T/60,tEclipse/60,24*60, 1:ceil(orbits));
+pGenTrack24 = pTime(pGenTracking,T/60,tEclipse/60,24*60, 1:ceil(orbits),true);
 figure
 plot(pGenTrack24(:,1), pGenTrack24(:,2), 'lineWidth', 2)
 grid on
@@ -189,8 +189,8 @@ xlabel('Time (min)'), ylabel('Power (W)')
 figure(2)
 pSciTrack24 = pTime(pModeSci,T/60,tEclipse/60,24*60, 1:3); % power consumed during science collection 
 pCommTrack24 = pTime(pModeComms,T/60,[tEclipse(1) tEclipse(1)+ttxDep]/60,24*60, 5); % power consumed during communication
-pIdleTrack24 = pTime(pModeIdle,T/60,[tEclipse(2) tEclipse(1)+T]/60,24*60,4:ceil(orbits)); % power consumed during idle 
-pPowerTrack24 = pTime(pModeGen,T/60,tEclipse/60,24*60, 6:ceil(orbits)); % power consumed during power generation 
+pIdleTrack24 = pTime(pModeIdle,T/60,tEclipse/60,24*60,4:ceil(orbits),true); % power consumed during idle 
+pPowerTrack24 = pTime(pModeGen,T/60,tEclipse/60,24*60,4:ceil(orbits)); % power consumed during power generation 
 plot(pSciTrack24(:,1) , [pSciTrack24(:,2),pCommTrack24(:,2),pIdleTrack24(:,2),pPowerTrack24(:,2)], 'lineWidth', 2)
 grid on
 title('Power Consumption by Tracking Panels by Science (24 hrs)')
@@ -200,7 +200,7 @@ xlabel('Time (min)'), ylabel('Power (W)')
 
 % plots for fixed panels 
 % Power Generation
-pGenFixed24 = pTime(PgenFixed45,T/60,tEclipse/60,24*60,1:ceil(orbits));
+pGenFixed24 = pTime(PgenFixed45,T/60,tEclipse/60,24*60,1:ceil(orbits),true);
 figure(3)
 plot(pGenFixed24(:,1), pGenFixed24(:,2), 'lineWidth', 2)
 grid on
