@@ -15,12 +15,18 @@ function power = pTime(P,T,tEcl,time, orbits, varargin)
 	orb = 1;
 	for i = 1:res
 		if power(i,1) > orb*T
-			tEcl = tEcl + T;
+			if norm(tEcl) > 0
+				tEcl = tEcl + T;
+			end
 			orb = orb + 1;
 		end
-		if power(i,1) > tEcl(1) && power(i,1) < tEcl(2) && ismember(orb,orbits) && nargin < 6
+		if norm(tEcl) == 0 && ismember(orb,orbits) % No eclipse
 			power(i,2) = P;
-		elseif (power(i,1) < tEcl(1) || power(i,1) > tEcl(2)) && ismember(orb,orbits)
+		elseif norm(tEcl) == 0 % No eclipse, no power
+			power(i,2) = 0;
+		elseif power(i,1) > tEcl(1) && power(i,1) < tEcl(2) && ismember(orb,orbits) && nargin < 6
+			power(i,2) = P;
+		elseif (power(i,1) < tEcl(1) || power(i,1) > tEcl(2)) && ismember(orb,orbits) && nargin > 5 % Only eclipse
 			power(i,2) = P;
 		else
 			power(i,2) = 0;
