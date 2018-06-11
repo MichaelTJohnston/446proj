@@ -176,7 +176,7 @@ Egen_track = ngen * (tSun*pGenTracking - T*pModeIdle); % energy generated in a d
 
 Eday_track = (Esci_track + Etx_track + Egen_track)/3600 % [W.hr] net energy gained/loss
 
-pGenTrack24 = pTime(pGenTracking,T/60,tEclipse/60,24*60);
+pGenTrack24 = pTime(pGenTracking,T/60,tEclipse/60,24*60, 1:ceil(orbits));
 
 figure
 plot(pGenTrack24(:,1), pGenTrack24(:,2), 'lineWidth', 2)

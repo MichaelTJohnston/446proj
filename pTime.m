@@ -6,16 +6,16 @@
 %		  tEcl = Eclipse time range
 %		  time = Time span
 
-function power = pTime(P,T,tEcl,time)
+function power = pTime(P,T,tEcl,time, orbits)
 	power = [linspace(0,time)', zeros(100,1)];
 	
 	orb = 1;
 	for i = 1:100
 		if power(i,1) > orb*T
 			tEcl = tEcl + T;
-			orb = orb + 1;
+			orb = orb + 1
 		end
-		if power(i,1) > tEcl(1) && power(i,1) < tEcl(2)
+		if power(i,1) > tEcl(1) && power(i,1) < tEcl(2) && ismember(orb,orbits)
 			power(i,2) = P;
 		else
 			power(i,2) = 0;
